@@ -1,0 +1,31 @@
+CREATE TABLE cliente (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  Nome varchar(50) NOT NULL,
+  PRIMARY KEY (Id)
+) ENGINE=InnoDB;
+
+CREATE TABLE item (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  Descricao varchar(50) NOT NULL,
+  Preco double NOT NULL,
+  PRIMARY KEY (Id)
+) ENGINE=InnoDB;
+
+CREATE TABLE itempedido (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  IdPedido int(11) NOT NULL,
+  IdItem int(11) NOT NULL,
+  Qtde int(11) DEFAULT NULL,
+  PrecoVenda double NOT NULL,
+  PRIMARY KEY (Id),
+  CONSTRAINT FOREIGN KEY (IdPedido) REFERENCES pedido (Id) ON DELETE CASCADE,
+  CONSTRAINT FOREIGN KEY (IdItem) REFERENCES item (Id) ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+CREATE TABLE pedido (
+  Id int(11) NOT NULL AUTO_INCREMENT,
+  IdCliente int(11) NOT NULL,
+  Data datetime NOT NULL,
+  PRIMARY KEY (Id),
+  CONSTRAINT FOREIGN KEY (IdCliente) REFERENCES cliente (Id) ON DELETE CASCADE
+) ENGINE=InnoDB;
