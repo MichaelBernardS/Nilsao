@@ -68,6 +68,6 @@ public class Pedido implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Pedido: " + id + ", Data: " + sdf.format(data) + ", Cliente: " + cliente;
+		return "Pedido: " + id + ", Data: " + sdf.format(data) + ", " + cliente;
 	}
 }

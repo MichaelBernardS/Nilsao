@@ -5,33 +5,35 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.List;
 
 import db.DB;
 import db.DbException;
-import model.dao.ItemDao;
-import model.entities.Item;
+import model.dao.PedidoDao;
+import model.entities.Cliente;
+import model.entities.Pedido;
 
-public class ItemDaoImpl implements ItemDao {
-
+public class PedidoDaoImpl implements PedidoDao {
+	
 	private Connection conn;
 
-	public ItemDaoImpl(Connection conn) {
+	public PedidoDaoImpl(Connection conn) {
 		this.conn = conn;
 	}
 
 	@Override
-	public void adicionarItem(Item it) {
+	public void adicionarPedido(Pedido ped) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
-					"INSERT INTO item " 
-					+ "(Descricao, Preco) " 
+					"INSERT INTO pedido " 
+					+ "(Data, IdCliente) " 
 					+ "VALUES " 
 					+ "(?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
-			st.setString(1, it.getDescricao());
-			st.setDouble(2, it.getPreco());
+			st.setDate(1, new java.sql.Date(ped.getData().getTime()));
+			st.setInt(2, ped.getCliente().getId());
 
 			int linhasAfetadas = st.executeUpdate();
 
@@ -39,7 +41,7 @@ public class ItemDaoImpl implements ItemDao {
 				ResultSet rs = st.getGeneratedKeys();
 				if (rs.next()) {
 					int id = rs.getInt(1);
-					it.setId(id);
+					ped.setId(id);
 					DB.closeResultSet(rs);
 				}
 			} else {
@@ -55,7 +57,7 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public void atualizar(Item obj) {
+	public void atualizar(Pedido obj) {
 	}
 
 	@Override
@@ -63,17 +65,21 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public Item acharPeloId(Integer id) {
+	public Pedido acharPeloId(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT * FROM item WHERE Id = ? ");
+					"SELECT pedido.*,cliente.Nome as ClNome "
+					+ "FROM pedido INNER JOIN cliente "
+					+ "ON pedido.IdCliente = cliente.Id "
+					+ "WHERE pedido.Id = ? ");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
-				Item it = instanciarItem(rs);
-				return it;
+				Cliente cl = instanciarCliente(rs);
+				Pedido ped = instanciarPedido(rs, cl);
+				return ped;
 			}
 			return null;
 		} 
@@ -86,16 +92,28 @@ public class ItemDaoImpl implements ItemDao {
 		}
 	}
 
-	private Item instanciarItem(ResultSet rs) throws SQLException {
-		Item it = new Item();
-		it.setId(rs.getInt("Id"));
-		it.setDescricao(rs.getString("Descricao"));
-		it.setPreco(rs.getDouble("Preco"));
-		return it;
+	@Override
+	public Pedido acharPelaData(Date data) {
+		return null;
+	}
+	
+	private Pedido instanciarPedido(ResultSet rs, Cliente cl) throws SQLException {
+		Pedido ped = new Pedido();
+		ped.setId(rs.getInt("Id"));
+		ped.setData(rs.getDate("Data"));
+		ped.setCliente(cl);
+		return ped;
+	}
+	
+	private Cliente instanciarCliente(ResultSet rs) throws SQLException {
+		Cliente cl = new Cliente();
+		cl.setId(rs.getInt("Id"));
+		cl.setNome(rs.getString("ClNome"));
+		return cl;
 	}
 
 	@Override
-	public List<Item> acharTodos() {
+	public List<Pedido> acharTodos() {
 		return null;
 	}
 }

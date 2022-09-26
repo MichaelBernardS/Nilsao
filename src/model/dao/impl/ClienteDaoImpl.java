@@ -21,7 +21,7 @@ public class ClienteDaoImpl implements ClienteDao {
 	}
 
 	@Override
-	public void adicionarCliente(Cliente obj) {
+	public void adicionarCliente(Cliente cl) {
 		PreparedStatement st = null;
 		try {
 			st = conn.prepareStatement(
@@ -30,7 +30,7 @@ public class ClienteDaoImpl implements ClienteDao {
 					+ "VALUES "
 					+ "(?)",
 					Statement.RETURN_GENERATED_KEYS);
-				st.setString(1, obj.getNome());
+				st.setString(1, cl.getNome());
 					
 				int linhasAfetadas = st.executeUpdate();
 				
@@ -38,7 +38,7 @@ public class ClienteDaoImpl implements ClienteDao {
 					ResultSet rs = st.getGeneratedKeys();
 					if (rs.next()) {
 						int id = rs.getInt(1);
-						obj.setId(id);
+						cl.setId(id);
 						DB.closeResultSet(rs);
 					}
 				}

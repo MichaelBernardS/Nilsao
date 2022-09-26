@@ -14,17 +14,19 @@ public class ItemPedido implements Serializable {
 	private Double precoVenda;
 	
 	private Pedido pedido;
+	private Item item;
 	
 	private List<Item> itens = new ArrayList<>();
 	
 	public ItemPedido() {
 	}
 
-	public ItemPedido(Integer id, Integer qtde, Double precoVenda, Pedido pedido) {
+	public ItemPedido(Integer id, Integer qtde, Double precoVenda, Pedido pedido, Item item) {
 		this.id = id;
 		this.qtde = qtde;
 		this.precoVenda = precoVenda;
 		this.pedido = pedido;
+		this.item = item;
 	}
 
 	public Integer getId() {
@@ -57,6 +59,14 @@ public class ItemPedido implements Serializable {
 
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
 	}
 
 	public List<Item> getItens() {
