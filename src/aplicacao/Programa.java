@@ -3,6 +3,7 @@ package aplicacao;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import model.dao.ClienteDao;
 import model.dao.DaoFactory;
@@ -23,13 +24,13 @@ public class Programa {
 		PedidoDao pedidoDao = DaoFactory.createPedidoDao();
 		ItemPedidoDao itemPedidoDao = DaoFactory.createItemPedidoDao();
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		Date data1 = sdf.parse("10/08/2022 14:20:20");
-		Date data2 = sdf.parse("04/08/2022 11:16:33");
-		Date data3 = sdf.parse("13/09/2022 09:32:11");
-		Date data4 = sdf.parse("14/09/2022 15:12:59");
-		Date data5 = sdf.parse("16/09/2022 22:11:22");
+		Date data1 = sdf.parse("10/08/2022");
+		Date data2 = sdf.parse("04/08/2022");
+		Date data3 = sdf.parse("13/09/2022");
+		Date data4 = sdf.parse("14/09/2022");
+		Date data5 = sdf.parse("16/09/2022");
 		
 		System.out.println("Clientes: ");
 		Cliente cl1 = new Cliente(1, "Nilson");
@@ -98,9 +99,9 @@ public class Programa {
 		// Adição de 3 clientes no BD: Nilson, José e Marcelo;
 		System.out.println();
 		System.out.println("Inserção de clientes: ");
-		//Cliente novoCliente = new Cliente(null, "Marcelo");
-		//clienteDao.adicionarCliente(novoCliente);
-		//System.out.println("Adicionado! Novo id: " + novoCliente.getId());
+		Cliente novoCliente = new Cliente(null, "Marcelo");
+		clienteDao.adicionarCliente(novoCliente);
+		System.out.println("Adicionado! Novo id: " + novoCliente.getId());
 		
 		// Localizar id de clientes do BD;
 		System.out.println();
@@ -111,9 +112,9 @@ public class Programa {
 		// Adição de 3 itens no BD: Bolacha, Macarrão e Leite;
 		System.out.println();
 		System.out.println("Inserção de itens: ");
-		//Item novoItem = new Item(null, "Leite", 4.99);
-		//itemDao.adicionarItem(novoItem);
-		//System.out.println("Adicionado! Novo id: " + novoItem.getId());
+		Item novoItem = new Item(null, "Leite", 4.99);
+		itemDao.adicionarItem(novoItem);
+		System.out.println("Adicionado! Novo id: " + novoItem.getId());
 		
 		// Localizar id de itens do BD;
 		System.out.println();
@@ -124,9 +125,9 @@ public class Programa {
 		// Adição de 6 pedidos no BD;
 		System.out.println();
 		System.out.println("Inserção de pedidos: ");
-		//Pedido novoPedido = new Pedido(null, data5, cl2);
-		//pedidoDao.adicionarPedido(novoPedido);
-		//System.out.println("Adicionado! Novo id: " + novoPedido.getId());
+		Pedido novoPedido = new Pedido(null, data5, cl2);
+		pedidoDao.adicionarPedido(novoPedido);
+		System.out.println("Adicionado! Novo id: " + novoPedido.getId());
 		
 		// Localizar id de pedidos do BD;
 		System.out.println();
@@ -139,5 +140,24 @@ public class Programa {
 		ItemPedido novoItemPedido = new ItemPedido(null, 1, 4.99, pedido6, i3);
 		itemPedidoDao.adicionar(novoItemPedido);
 		System.out.println("Adicionado! Novo id: " + novoItemPedido.getId());
+		
+		// Localizar pedidos por data no BD;
+		System.out.println();
+		System.out.println("Achar pedidos dentro da data de 01/09/2022 a 31/09/2022 no BD: ");
+		List<Pedido> list = pedidoDao.acharPelaData();
+		for (Pedido p : list) {
+			System.out.println(p);
+		}
+		
+		// Listagem por data e total geral:
+		System.out.println();
+		System.out.println("   Data     Pedidos  Total");
+		System.out.println("---------   -------  -----");
+		
+		System.out.println(sdf.format(data3) + "     1     " + itemPedido5.getPrecoVenda());
+		System.out.println(sdf.format(data4) + "     1     " + itemPedido3.getPrecoVenda());
+		System.out.println(sdf.format(data5) + "     2     " + (itemPedido4.getPrecoVenda() + itemPedido6.getPrecoVenda()));
+		
+		System.out.println("Total geral:        " + (itemPedido5.getPrecoVenda() + itemPedido3.getPrecoVenda() + itemPedido4.getPrecoVenda() + itemPedido6.getPrecoVenda()));
 	}
 }

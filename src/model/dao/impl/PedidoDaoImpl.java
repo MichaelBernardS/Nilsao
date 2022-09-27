@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import db.DB;
@@ -93,8 +93,33 @@ public class PedidoDaoImpl implements PedidoDao {
 	}
 
 	@Override
-	public Pedido acharPelaData(Date data) {
-		return null;
+	public List<Pedido> acharPelaData() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT pedido.*,cliente.Nome as ClNome "
+					+ "FROM pedido INNER JOIN cliente "
+					+ "ON pedido.IdCliente = cliente.Id "
+					+ "WHERE pedido.Id BETWEEN '3' and '6' ");
+			rs = st.executeQuery();
+			
+			List<Pedido> list = new ArrayList<>();
+			
+			while (rs.next()) {
+				Cliente cl = instanciarCliente(rs);
+				Pedido ped = instanciarPedido(rs, cl);
+				list.add(ped);
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 	
 	private Pedido instanciarPedido(ResultSet rs, Cliente cl) throws SQLException {

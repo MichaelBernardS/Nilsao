@@ -83,7 +83,7 @@ public class ItemPedido implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, itens, pedido, precoVenda, qtde);
+		return Objects.hash(id, item, itens, pedido, precoVenda, qtde);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class ItemPedido implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ItemPedido other = (ItemPedido) obj;
-		return Objects.equals(id, other.id) && Objects.equals(itens, other.itens)
+		return Objects.equals(id, other.id) && Objects.equals(item, other.item) && Objects.equals(itens, other.itens)
 				&& Objects.equals(pedido, other.pedido) && Objects.equals(precoVenda, other.precoVenda)
 				&& Objects.equals(qtde, other.qtde);
 	}
@@ -112,4 +112,9 @@ public class ItemPedido implements Serializable {
 		}
 	return sb.toString();
 	}
+	
+	public double total() {
+		return this.precoVenda += precoVenda;
+	}
+	
 }
