@@ -99,9 +99,9 @@ public class Programa {
 		// Adição de 3 clientes no BD: Nilson, José e Marcelo;
 		System.out.println();
 		System.out.println("Inserção de clientes: ");
-		Cliente novoCliente = new Cliente(null, "Marcelo");
-		clienteDao.adicionarCliente(novoCliente);
-		System.out.println("Adicionado! Novo id: " + novoCliente.getId());
+		//Cliente novoCliente = new Cliente(null, "Marcelo");
+		//clienteDao.adicionarCliente(novoCliente);
+		//System.out.println("Adicionado! Novo id: " + novoCliente.getId());
 		
 		// Localizar id de clientes do BD;
 		System.out.println();
@@ -112,9 +112,9 @@ public class Programa {
 		// Adição de 3 itens no BD: Bolacha, Macarrão e Leite;
 		System.out.println();
 		System.out.println("Inserção de itens: ");
-		Item novoItem = new Item(null, "Leite", 4.99);
-		itemDao.adicionarItem(novoItem);
-		System.out.println("Adicionado! Novo id: " + novoItem.getId());
+		//Item novoItem = new Item(null, "Leite", 4.99);
+		//itemDao.adicionarItem(novoItem);
+		//System.out.println("Adicionado! Novo id: " + novoItem.getId());
 		
 		// Localizar id de itens do BD;
 		System.out.println();
@@ -125,9 +125,9 @@ public class Programa {
 		// Adição de 6 pedidos no BD;
 		System.out.println();
 		System.out.println("Inserção de pedidos: ");
-		Pedido novoPedido = new Pedido(null, data5, cl2);
-		pedidoDao.adicionarPedido(novoPedido);
-		System.out.println("Adicionado! Novo id: " + novoPedido.getId());
+		//Pedido novoPedido = new Pedido(null, data5, cl2);
+		//pedidoDao.adicionarPedido(novoPedido);
+		//System.out.println("Adicionado! Novo id: " + novoPedido.getId());
 		
 		// Localizar id de pedidos do BD;
 		System.out.println();
@@ -135,6 +135,7 @@ public class Programa {
 		Pedido acharPedido = pedidoDao.acharPeloId(4);
 		System.out.println(acharPedido);
 		
+		// Adição de itens de pedidos;
 		System.out.println();
 		System.out.println("Inserção de itens de pedidos: ");
 		ItemPedido novoItemPedido = new ItemPedido(null, 1, 4.99, pedido6, i3);
@@ -143,7 +144,7 @@ public class Programa {
 		
 		// Localizar pedidos por data no BD;
 		System.out.println();
-		System.out.println("Achar pedidos dentro da data de 01/09/2022 a 31/09/2022 no BD: ");
+		System.out.println("Achar pedidos dentro da data de 01/09/2022 a 30/09/2022 no BD: ");
 		List<Pedido> list = pedidoDao.acharPelaData();
 		for (Pedido p : list) {
 			System.out.println(p);

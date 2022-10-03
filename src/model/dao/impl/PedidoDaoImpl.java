@@ -101,7 +101,7 @@ public class PedidoDaoImpl implements PedidoDao {
 					"SELECT pedido.*,cliente.Nome as ClNome "
 					+ "FROM pedido INNER JOIN cliente "
 					+ "ON pedido.IdCliente = cliente.Id "
-					+ "WHERE pedido.Id BETWEEN '3' and '6' ");
+					+ "WHERE pedido.Data between '2022-09-01' and '2022-09-30' ");
 			rs = st.executeQuery();
 			
 			List<Pedido> list = new ArrayList<>();
