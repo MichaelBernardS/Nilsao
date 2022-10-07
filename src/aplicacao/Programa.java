@@ -68,7 +68,7 @@ public class Programa {
 		System.out.println("Itens dos Pedidos: ");
 		ItemPedido itemPedido1 = new ItemPedido(1, 6, 39.98, pedido1, i1);
 		itemPedido1.addItem(i1); itemPedido1.addItem(i1); itemPedido1.addItem(i1); itemPedido1.addItem(i1);
-		 itemPedido1.addItem(i3);  itemPedido1.addItem(i3);
+		itemPedido1.addItem(i3);  itemPedido1.addItem(i3);
 		System.out.println(itemPedido1);
 		
 		ItemPedido itemPedido2 = new ItemPedido(2, 4, 44.44, pedido2, i3);
@@ -138,27 +138,40 @@ public class Programa {
 		// Adição de itens de pedidos;
 		System.out.println();
 		System.out.println("Inserção de itens de pedidos: ");
-		ItemPedido novoItemPedido = new ItemPedido(null, 1, 4.99, pedido6, i3);
-		itemPedidoDao.adicionar(novoItemPedido);
-		System.out.println("Adicionado! Novo id: " + novoItemPedido.getId());
+		//ItemPedido novoItemPedido = new ItemPedido(null, 1, 4.99, pedido6, i3);
+		//itemPedidoDao.adicionar(novoItemPedido);
+		//System.out.println("Adicionado! Novo id: " + novoItemPedido.getId());
 		
 		// Localizar pedidos por data no BD;
 		System.out.println();
 		System.out.println("Achar pedidos dentro da data de 01/09/2022 a 30/09/2022 no BD: ");
 		List<Pedido> list = pedidoDao.acharPelaData();
-		for (Pedido p : list) {
-			System.out.println(p);
-		}
+		list.forEach(System.out::println);
 		
-		// Listagem por data e total geral:
+		// Solicitações do Nilson
 		System.out.println();
-		System.out.println("   Data     Pedidos  Total");
-		System.out.println("---------   -------  -----");
+		System.out.println("   Data");
+		System.out.println("----------");
+		pedidoDao.groupByDate(); 
 		
-		System.out.println(sdf.format(data3) + "     1     " + itemPedido5.getPrecoVenda());
-		System.out.println(sdf.format(data4) + "     1     " + itemPedido3.getPrecoVenda());
-		System.out.println(sdf.format(data5) + "     2     " + (itemPedido4.getPrecoVenda() + itemPedido6.getPrecoVenda()));
+		System.out.println();
+		System.out.println("Pedidos");
+		System.out.println("-------");
+		pedidoDao.countByDate(); 
 		
-		System.out.println("Total geral:        " + (itemPedido5.getPrecoVenda() + itemPedido3.getPrecoVenda() + itemPedido4.getPrecoVenda() + itemPedido6.getPrecoVenda()));
+		System.out.println();
+		System.out.println("Total");
+		System.out.println("-----");
+		itemPedidoDao.somaDoPedido(5);
+		itemPedidoDao.somaDoPedido(3);
+		
+		System.out.println((itemPedido4.getPrecoVenda() + itemPedido6.getPrecoVenda()));
+		
+		System.out.println();
+		System.out.println("Total geral");
+		System.out.println("------");
+		System.out.println((itemPedido5.getPrecoVenda() + itemPedido3.getPrecoVenda() + itemPedido4.getPrecoVenda() + itemPedido6.getPrecoVenda()));
+	
+		
 	}
 }

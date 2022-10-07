@@ -98,10 +98,10 @@ public class PedidoDaoImpl implements PedidoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT pedido.*,cliente.Nome as ClNome "
-					+ "FROM pedido INNER JOIN cliente "
-					+ "ON pedido.IdCliente = cliente.Id "
-					+ "WHERE pedido.Data between '2022-09-01' and '2022-09-30' ");
+					"SELECT pedido.Data,cliente.Id as Id,cliente.Nome as ClNome "
+							+ "FROM pedido INNER JOIN cliente "
+							+ "ON pedido.IdCliente = cliente.Id "
+							+ "WHERE pedido.Data between '2022-09-01' and '2022-09-30' ORDER BY Data ");
 			rs = st.executeQuery();
 			
 			List<Pedido> list = new ArrayList<>();
@@ -122,6 +122,8 @@ public class PedidoDaoImpl implements PedidoDao {
 		}
 	}
 	
+	
+	
 	private Pedido instanciarPedido(ResultSet rs, Cliente cl) throws SQLException {
 		Pedido ped = new Pedido();
 		ped.setId(rs.getInt("Id"));
@@ -141,4 +143,48 @@ public class PedidoDaoImpl implements PedidoDao {
 	public List<Pedido> acharTodos() {
 		return null;
 	}
+
+	@Override
+	public void countByDate() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT count(Data) from pedido where Data between '2022-09-01' and '2022-09-30' group by Data Order by Data ");
+			
+			rs = st.executeQuery();
+			
+			while (rs.next()) {
+				System.out.println(rs.getInt(1));
+			}
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
+
+	@Override
+	public void groupByDate() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement("SELECT Data from pedido where Data between '2022-09-01' and '2022-09-30' group by Data Order by Data ");
+			
+			rs = st.executeQuery();
+			
+			while (rs.next()) {
+				System.out.println(rs.getDate("Data"));
+			}
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}	
 }

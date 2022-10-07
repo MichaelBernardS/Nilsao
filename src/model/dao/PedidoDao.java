@@ -12,4 +12,6 @@ public interface PedidoDao {
 	Pedido acharPeloId(Integer id);
 	List<Pedido> acharPelaData();
 	List<Pedido> acharTodos();
+	void countByDate();
+	void groupByDate();
 }

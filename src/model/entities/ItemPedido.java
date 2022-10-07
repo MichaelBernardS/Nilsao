@@ -112,9 +112,4 @@ public class ItemPedido implements Serializable {
 		}
 	return sb.toString();
 	}
-	
-	public double total() {
-		return this.precoVenda += precoVenda;
-	}
-	
 }
