@@ -12,5 +12,7 @@ public interface ItemPedidoDao {
 	ItemPedido acharPeloId(Integer id);
 	ItemPedido total(Double total);
 	List<ItemPedido> acharTodos();
-	Double somaDoPedido(Integer id);
+	void somaDoPedidoPeloId(Integer id);
+	void somarDoisPedidos();
+	void somarQuatroPedidos();
 }

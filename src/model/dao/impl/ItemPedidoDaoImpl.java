@@ -127,7 +127,7 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 	}
 
 	@Override
-	public Double somaDoPedido(Integer id) {
+	public void somaDoPedidoPeloId(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -135,10 +135,62 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 					"select SUM(PrecoVenda),round(SUM(PrecoVenda), 2) from itempedido where idPedido = ? ");
 			st.setInt(1, id);
 			rs = st.executeQuery();
+			
 			while (rs.next()) {
 				System.out.println(rs.getDouble("round(SUM(PrecoVenda), 2)"));
 			}
-			return null;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} 
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
+
+	@Override
+	public void somarDoisPedidos() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT sum(PrecoVenda),round(SUM(PrecoVenda), 2) "
+					+ "from itempedido "
+					+ "where IdPedido = '4' "
+					+ "or IdPedido = '6' ");
+			rs = st.executeQuery();
+			
+			while (rs.next()) {
+				System.out.println(rs.getDouble("round(SUM(PrecoVenda), 2)"));
+			}
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} 
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
+
+	@Override
+	public void somarQuatroPedidos() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT sum(PrecoVenda),round(SUM(PrecoVenda), 2) "
+					+ "from itempedido "
+					+ "where IdPedido = '3' "
+					+ "or IdPedido = '4' "
+					+ "or IdPedido = '5'"
+					+ "or IdPedido = '6' ");
+			rs = st.executeQuery();
+			
+			while (rs.next()) {
+				System.out.println(rs.getDouble("round(SUM(PrecoVenda), 2)"));
+			}
 		}
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());

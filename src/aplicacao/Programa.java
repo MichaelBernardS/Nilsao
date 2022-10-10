@@ -148,30 +148,30 @@ public class Programa {
 		List<Pedido> list = pedidoDao.acharPelaData();
 		list.forEach(System.out::println);
 		
-		// Solicitações do Nilson
+		// Solicitações do Nilson:
+		// Utilizando o group by, mostrou as datas sem repetições;
 		System.out.println();
 		System.out.println("   Data");
 		System.out.println("----------");
 		pedidoDao.groupByDate(); 
 		
+		// Utilizando o count, mostrou quantos pedidos terão em uma determinada data:
 		System.out.println();
 		System.out.println("Pedidos");
 		System.out.println("-------");
 		pedidoDao.countByDate(); 
 		
+		// Utilizando o sum e round, mostrou a soma do total do pedido;
 		System.out.println();
 		System.out.println("Total");
 		System.out.println("-----");
-		itemPedidoDao.somaDoPedido(5);
-		itemPedidoDao.somaDoPedido(3);
-		
-		System.out.println((itemPedido4.getPrecoVenda() + itemPedido6.getPrecoVenda()));
+		itemPedidoDao.somaDoPedidoPeloId(5);
+		itemPedidoDao.somaDoPedidoPeloId(3);
+		itemPedidoDao.somarDoisPedidos();
 		
 		System.out.println();
 		System.out.println("Total geral");
 		System.out.println("------");
-		System.out.println((itemPedido5.getPrecoVenda() + itemPedido3.getPrecoVenda() + itemPedido4.getPrecoVenda() + itemPedido6.getPrecoVenda()));
-	
-		
+		itemPedidoDao.somarQuatroPedidos();
 	}
 }
