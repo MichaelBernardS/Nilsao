@@ -132,12 +132,12 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"select SUM(PrecoVenda),round(SUM(PrecoVenda), 2) from itempedido where idPedido = ? ");
+					"select SUM(Qtde * PrecoVenda),round(SUM(Qtde * PrecoVenda), 2) from itempedido where idPedido = ? ");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			
 			while (rs.next()) {
-				System.out.println(rs.getDouble("round(SUM(PrecoVenda), 2)"));
+				System.out.println(rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)"));
 			}
 		}
 		catch (SQLException e) {
@@ -155,14 +155,14 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT sum(PrecoVenda),round(SUM(PrecoVenda), 2) "
+					"SELECT sum(Qtde * PrecoVenda),round(SUM(Qtde * PrecoVenda), 2) "
 					+ "from itempedido "
 					+ "where IdPedido = '4' "
 					+ "or IdPedido = '6' ");
 			rs = st.executeQuery();
 			
 			while (rs.next()) {
-				System.out.println(rs.getDouble("round(SUM(PrecoVenda), 2)"));
+				System.out.println(rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)"));
 			}
 		}
 		catch (SQLException e) {
@@ -180,7 +180,7 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT sum(PrecoVenda),round(SUM(PrecoVenda), 2) "
+					"SELECT sum(Qtde * PrecoVenda),round(SUM(Qtde * PrecoVenda), 2) "
 					+ "from itempedido "
 					+ "where IdPedido = '3' "
 					+ "or IdPedido = '4' "
@@ -189,7 +189,7 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 			rs = st.executeQuery();
 			
 			while (rs.next()) {
-				System.out.println(rs.getDouble("round(SUM(PrecoVenda), 2)"));
+				System.out.println(rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)"));
 			}
 		}
 		catch (SQLException e) {
