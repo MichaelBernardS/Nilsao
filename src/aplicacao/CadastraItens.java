@@ -4,7 +4,7 @@ import model.dao.DaoFactory;
 import model.dao.ItemDao;
 import model.entities.Item;
 
-public class ProgramaItens {
+public class CadastraItens {
 
 	public static void main(String[] args) {
 		

@@ -122,8 +122,6 @@ public class PedidoDaoImpl implements PedidoDao {
 		}
 	}
 	
-	
-	
 	private Pedido instanciarPedido(ResultSet rs, Cliente cl) throws SQLException {
 		Pedido ped = new Pedido();
 		ped.setId(rs.getInt("Id"));

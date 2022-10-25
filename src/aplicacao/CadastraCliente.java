@@ -6,7 +6,7 @@ import model.dao.ClienteDao;
 import model.dao.DaoFactory;
 import model.entities.Cliente;
 
-public class ProgramaClientes {
+public class CadastraCliente {
 
 	public static void main(String[] args) throws ParseException {
 		
