@@ -1,5 +1,7 @@
 package aplicacao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import model.dao.DaoFactory;
@@ -9,7 +11,9 @@ import model.entities.Pedido;
 
 public class Listagem {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ParseException {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
 		ItemPedidoDao itemPedidoDao = DaoFactory.createItemPedidoDao();
 		PedidoDao pedidoDao = DaoFactory.createPedidoDao();
@@ -30,7 +34,7 @@ public class Listagem {
 		// Localizar pedidos por data no BD;
 		System.out.println();
 		System.out.println("Achar pedidos dentro da data de 01/09/2022 a 30/09/2022 no BD: ");
-		List<Pedido> list = pedidoDao.acharPelaData();
+		List<Pedido> list = pedidoDao.acharPelaData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
 		list.forEach(System.out::println);
 		
 		// Utilizando o sum e round, mostrou a soma do total do pedido;

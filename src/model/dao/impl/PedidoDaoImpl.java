@@ -6,12 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import db.DB;
 import db.DbException;
 import model.dao.PedidoDao;
 import model.entities.Cliente;
+import model.entities.Item;
+import model.entities.ItemPedido;
 import model.entities.Pedido;
 
 public class PedidoDaoImpl implements PedidoDao {
@@ -70,15 +73,18 @@ public class PedidoDaoImpl implements PedidoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT pedido.*,cliente.Nome as ClNome "
-					+ "FROM pedido INNER JOIN cliente "
+					"SELECT pedido.*,cliente.Nome as ClNome,item.Descricao as ItDescricao,item.Preco as itPreco,itempedido.Qtde as ItPeQtde,itempedido.PrecoVenda as ItPePrecoVenda "
+					+ "FROM pedido INNER JOIN cliente INNER JOIN item INNER JOIN itempedido "
 					+ "ON pedido.IdCliente = cliente.Id "
 					+ "WHERE pedido.Id = ? ");
 			st.setInt(1, id);
 			rs = st.executeQuery();
+			
 			if (rs.next()) {
 				Cliente cl = instanciarCliente(rs);
-				Pedido ped = instanciarPedido(rs, cl);
+				Item it = instanciarItem(rs);
+				ItemPedido itPe = instanciarItemPedido(rs, it);
+				Pedido ped = instanciarPedido(rs, cl, itPe);
 				return ped;
 			}
 			return null;
@@ -93,22 +99,27 @@ public class PedidoDaoImpl implements PedidoDao {
 	}
 
 	@Override
-	public List<Pedido> acharPelaData() {
+	public List<Pedido> acharPelaData(Date dataInicio, Date dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT pedido.Data,cliente.Id as Id,cliente.Nome as ClNome "
-							+ "FROM pedido INNER JOIN cliente "
+					"SELECT pedido.Data,cliente.Id as Id,cliente.Nome as ClNome,item.Descricao as ItDescricao, item.Preco as itPreco,itempedido.Qtde as ItPeQtde,itempedido.PrecoVenda as ItPePrecoVenda "
+							+ "FROM pedido INNER JOIN cliente INNER JOIN item INNER JOIN itempedido "
 							+ "ON pedido.IdCliente = cliente.Id "
-							+ "WHERE pedido.Data between '2022-09-01' and '2022-09-30' ORDER BY Data ");
+							+ "WHERE pedido.Data between ? and ? ORDER BY Data ");
+			st.setDate(1, new java.sql.Date(dataInicio.getTime()));
+			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
+			
 			rs = st.executeQuery();
 			
 			List<Pedido> list = new ArrayList<>();
 			
 			while (rs.next()) {
 				Cliente cl = instanciarCliente(rs);
-				Pedido ped = instanciarPedido(rs, cl);
+				Item it = instanciarItem(rs);
+				ItemPedido itPe = instanciarItemPedido(rs, it);
+				Pedido ped = instanciarPedido(rs, cl, itPe);
 				list.add(ped);
 			}
 			return list;
@@ -122,11 +133,12 @@ public class PedidoDaoImpl implements PedidoDao {
 		}
 	}
 	
-	private Pedido instanciarPedido(ResultSet rs, Cliente cl) throws SQLException {
+	private Pedido instanciarPedido(ResultSet rs, Cliente cl, ItemPedido itPe) throws SQLException {
 		Pedido ped = new Pedido();
 		ped.setId(rs.getInt("Id"));
 		ped.setData(rs.getDate("Data"));
 		ped.setCliente(cl);
+		ped.addItem(itPe);
 		return ped;
 	}
 	
@@ -135,6 +147,23 @@ public class PedidoDaoImpl implements PedidoDao {
 		cl.setId(rs.getInt("Id"));
 		cl.setNome(rs.getString("ClNome"));
 		return cl;
+	}
+	
+	private Item instanciarItem(ResultSet rs) throws SQLException {
+		Item it = new Item();
+		it.setId(rs.getInt("Id"));
+		it.setDescricao(rs.getString("ItDescricao"));
+		it.setPreco(rs.getDouble("ItPreco"));
+		return it;
+	}
+	
+	private ItemPedido instanciarItemPedido(ResultSet rs, Item it) throws SQLException {
+		ItemPedido itPe = new ItemPedido();
+		itPe.setId(rs.getInt("Id"));
+		itPe.setQtde(rs.getInt("ItPeQtde"));
+		itPe.setPrecoVenda(rs.getDouble("ItPePrecoVenda"));
+		itPe.setItem(it);
+		return itPe;
 	}
 
 	@Override

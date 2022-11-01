@@ -1,6 +1,8 @@
 package model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Cliente implements Serializable {
@@ -9,6 +11,8 @@ public class Cliente implements Serializable {
 	
 	private Integer id;
 	private String nome;
+	
+	private List<Pedido> pedidos = new ArrayList<>();
 	
 	public Cliente() {
 	}
@@ -32,6 +36,10 @@ public class Cliente implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
 
 	@Override
