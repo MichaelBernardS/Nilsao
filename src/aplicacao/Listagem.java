@@ -23,7 +23,7 @@ public class Listagem {
 		System.out.println();
 		System.out.println("   Data");
 		System.out.println("----------");
-		pedidoDao.groupByDate(); 
+		pedidoDao.groupByDate();
 		
 		// Utilizando o count, mostrou quantos pedidos terão em uma determinada data:
 		System.out.println();
@@ -34,20 +34,19 @@ public class Listagem {
 		// Localizar pedidos por data no BD;
 		System.out.println();
 		System.out.println("Achar pedidos dentro da data de 01/09/2022 a 30/09/2022 no BD: ");
-		List<Pedido> list = pedidoDao.acharPelaData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
-		list.forEach(System.out::println);
+		System.out.println("-------------------------------------------------------------");
+		List<Pedido> listAcharPelaData = pedidoDao.acharPelaData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+		listAcharPelaData.forEach(System.out::println);
 		
-		// Utilizando o sum e round, mostrou a soma do total do pedido;
+		// Utilizando o sum e round, mostrou a soma do total dos pedidos agrupados por dia;
 		System.out.println();
 		System.out.println("Total");
 		System.out.println("-----");
-		itemPedidoDao.somaDoPedidoPeloId(5);
-		itemPedidoDao.somaDoPedidoPeloId(3);
-		itemPedidoDao.somarDoisPedidos();
+		itemPedidoDao.somaDosPedidosPorData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
 		
 		System.out.println();
 		System.out.println("Total geral");
-		System.out.println("------");
-		itemPedidoDao.somarQuatroPedidos();
+		System.out.println("------------");
+		itemPedidoDao.somaTotal(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
 	}
 }

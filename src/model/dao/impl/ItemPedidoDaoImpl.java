@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import db.DB;
@@ -93,11 +95,6 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 			DB.closeResultSet(rs);
 		}
 	}
-
-	@Override
-	public ItemPedido total(Double total) {
-		return null;
-	}
 	
 	private Item instanciarItem(ResultSet rs) throws SQLException {
 		Item it = new Item();
@@ -117,8 +114,35 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 	}
 
 	@Override
-	public List<ItemPedido> acharTodos() {
-		return null;
+	public List<ItemPedido> acharItemPedido(Pedido pedido) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"SELECT itempedido.*,item.Descricao as ItDescricao, item.Preco as itPreco "
+					+ "FROM itempedido INNER JOIN pedido INNER JOIN item "
+					+ "ON itempedido.IdItem = item.Id "
+					+ "WHERE itempedido.IdPedido = ? "
+					+ "ORDER BY Id ");
+			st.setInt(1, pedido.getId());
+			rs = st.executeQuery();
+			
+			List<ItemPedido> list = new ArrayList<>();
+			
+			while (rs.next()) {
+				Item it = instanciarItem(rs);
+				ItemPedido itPe = instanciarItemPedido(rs, it);
+				list.add(itPe);
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} 
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override
@@ -127,7 +151,9 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"select SUM(Qtde * PrecoVenda),round(SUM(Qtde * PrecoVenda), 2) from itempedido where idPedido = ? ");
+					"SELECT round(SUM(Qtde * PrecoVenda), 2) "
+					+ "FROM itempedido "
+					+ "WHERE idPedido = ? ");
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			
@@ -145,17 +171,20 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 	}
 
 	@Override
-	public void somarDoisPedidos() {
+	public void somaDosPedidosPorData(Date dataInicio, Date dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT sum(Qtde * PrecoVenda),round(SUM(Qtde * PrecoVenda), 2) "
-					+ "from itempedido "
-					+ "where IdPedido = '4' "
-					+ "or IdPedido = '6' ");
+					"SELECT round(SUM(Qtde * PrecoVenda), 2) "
+					+ "FROM itempedido "
+					+ "INNER JOIN pedido ON pedido.Id = itempedido.IdPedido "
+					+ "WHERE pedido.Data between ? AND ? "
+					+ "Group By Data Order By Data ");
+			st.setDate(1, new java.sql.Date(dataInicio.getTime()));
+			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			rs = st.executeQuery();
-			
+
 			while (rs.next()) {
 				System.out.println(rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)"));
 			}
@@ -170,19 +199,19 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 	}
 
 	@Override
-	public void somarQuatroPedidos() {
+	public void somaTotal(Date dataInicio, Date dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT sum(Qtde * PrecoVenda),round(SUM(Qtde * PrecoVenda), 2) "
-					+ "from itempedido "
-					+ "where IdPedido = '3' "
-					+ "or IdPedido = '4' "
-					+ "or IdPedido = '5' "
-					+ "or IdPedido = '6' ");
+					"SELECT round(SUM(Qtde * PrecoVenda), 2) "
+					+ "FROM itempedido "
+					+ "INNER JOIN pedido ON pedido.Id = itempedido.IdPedido "
+					+ "WHERE pedido.Data between ? AND ? ");
+			st.setDate(1, new java.sql.Date(dataInicio.getTime()));
+			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			rs = st.executeQuery();
-			
+
 			while (rs.next()) {
 				System.out.println(rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)"));
 			}

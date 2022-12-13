@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import model.entities.ItemPedido;
@@ -11,9 +12,8 @@ public interface ItemPedidoDao {
 	void atualizar(ItemPedido obj);
 	void deletarPeloId(Integer id);
 	ItemPedido acharPeloId(Integer id);
-	ItemPedido total(Double total);
-	List<ItemPedido> acharTodos();
+	List<ItemPedido> acharItemPedido(Pedido pedido);
 	void somaDoPedidoPeloId(Integer id);
-	void somarDoisPedidos();
-	void somarQuatroPedidos();
+	void somaDosPedidosPorData(Date dataInicio, Date dataFinal);
+	void somaTotal(Date dataInicio, Date dataFinal);
 }

@@ -73,7 +73,7 @@ public class PedidoDaoImpl implements PedidoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT pedido.*,cliente.Nome as ClNome,item.Descricao as ItDescricao,item.Preco as itPreco,itempedido.Qtde as ItPeQtde,itempedido.PrecoVenda as ItPePrecoVenda "
+					"SELECT pedido.*,cliente.Nome as ClNome,item.Descricao as ItDescricao,item.Preco as ItPreco, itempedido.Qtde as ItPeQtde, itempedido.PrecoVenda as ItPePrecoVenda "
 					+ "FROM pedido INNER JOIN cliente INNER JOIN item INNER JOIN itempedido "
 					+ "ON pedido.IdCliente = cliente.Id "
 					+ "WHERE pedido.Id = ? ");
@@ -104,10 +104,13 @@ public class PedidoDaoImpl implements PedidoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT pedido.Data,cliente.Id as Id,cliente.Nome as ClNome,item.Descricao as ItDescricao, item.Preco as itPreco,itempedido.Qtde as ItPeQtde,itempedido.PrecoVenda as ItPePrecoVenda "
-							+ "FROM pedido INNER JOIN cliente INNER JOIN item INNER JOIN itempedido "
-							+ "ON pedido.IdCliente = cliente.Id "
-							+ "WHERE pedido.Data between ? and ? ORDER BY Data ");
+					"SELECT pedido.Data, itempedido.Id as IdItemPedido, cliente.Id as IdCliente, pedido.Id as IdPedido, cliente.Nome as ClNome, item.Descricao as ItDescricao,item.Preco as ItPreco, itempedido.Qtde as ItPeQtde, itempedido.PrecoVenda as ItPePrecoVenda, Item.Id as IdItem "
+							+ "FROM itempedido "
+							+ "INNER JOIN pedido ON pedido.Id = itempedido.IdPedido "
+							+ "INNER JOIN item ON item.Id = itempedido.IdItem "
+							+ "INNER JOIN cliente ON cliente.Id = pedido.IdCliente "
+							+ "WHERE pedido.Data between ? and ? "
+							+ "ORDER BY itempedido.Id, cliente.Id, pedido.Id ");
 			st.setDate(1, new java.sql.Date(dataInicio.getTime()));
 			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			
@@ -135,7 +138,7 @@ public class PedidoDaoImpl implements PedidoDao {
 	
 	private Pedido instanciarPedido(ResultSet rs, Cliente cl, ItemPedido itPe) throws SQLException {
 		Pedido ped = new Pedido();
-		ped.setId(rs.getInt("Id"));
+		ped.setId(rs.getInt("IdPedido"));
 		ped.setData(rs.getDate("Data"));
 		ped.setCliente(cl);
 		ped.addItem(itPe);
@@ -144,14 +147,14 @@ public class PedidoDaoImpl implements PedidoDao {
 	
 	private Cliente instanciarCliente(ResultSet rs) throws SQLException {
 		Cliente cl = new Cliente();
-		cl.setId(rs.getInt("Id"));
+		cl.setId(rs.getInt("IdCliente"));
 		cl.setNome(rs.getString("ClNome"));
 		return cl;
 	}
 	
 	private Item instanciarItem(ResultSet rs) throws SQLException {
 		Item it = new Item();
-		it.setId(rs.getInt("Id"));
+		it.setId(rs.getInt("IdItem"));
 		it.setDescricao(rs.getString("ItDescricao"));
 		it.setPreco(rs.getDouble("ItPreco"));
 		return it;
@@ -159,7 +162,7 @@ public class PedidoDaoImpl implements PedidoDao {
 	
 	private ItemPedido instanciarItemPedido(ResultSet rs, Item it) throws SQLException {
 		ItemPedido itPe = new ItemPedido();
-		itPe.setId(rs.getInt("Id"));
+		itPe.setId(rs.getInt("IdItemPedido"));
 		itPe.setQtde(rs.getInt("ItPeQtde"));
 		itPe.setPrecoVenda(rs.getDouble("ItPePrecoVenda"));
 		itPe.setItem(it);
@@ -176,7 +179,11 @@ public class PedidoDaoImpl implements PedidoDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement("SELECT count(Data) from pedido where Data between '2022-09-01' and '2022-09-30' group by Data Order by Data ");
+			st = conn.prepareStatement("SELECT count(Data) "
+					+ "From pedido "
+					+ "Where Data "
+					+ "Between '2022-09-01' AND '2022-09-30' "
+					+ "Group By Data Order by Data ");
 			
 			rs = st.executeQuery();
 			

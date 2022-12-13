@@ -98,12 +98,12 @@ public class CadastraPedido {
 		// Localizar pedidos pelo ID no BD;
 		System.out.println();
 		System.out.println("Achar pedido pelo id: ");
-		Pedido acharPedido = pedidoDao.acharPeloId(2);
+		Pedido acharPedido = pedidoDao.acharPeloId(1);
 		System.out.println(acharPedido);
 		
 		// Localizar itempedido pelo ID no BD;
 		System.out.println();
-		System.out.println("Achar itemPedido pelo id: ");
+		System.out.println("Achar ItemPedido pelo id: ");
 		ItemPedido acharItemPedido = itemPedidoDao.acharPeloId(2);
 		System.out.println(acharItemPedido);
 	}
