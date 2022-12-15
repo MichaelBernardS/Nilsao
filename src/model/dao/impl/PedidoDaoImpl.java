@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,8 @@ import model.entities.Pedido;
 public class PedidoDaoImpl implements PedidoDao {
 	
 	private Connection conn;
+	
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
 	public PedidoDaoImpl(Connection conn) {
 		this.conn = conn;
@@ -205,12 +208,16 @@ public class PedidoDaoImpl implements PedidoDao {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
-			st = conn.prepareStatement("SELECT Data from pedido where Data between '2022-09-01' and '2022-09-30' group by Data Order by Data ");
+			st = conn.prepareStatement("SELECT Data "
+					+ "FROM pedido "
+					+ "WHERE Data "
+					+ "Between '2022-09-01' And '2022-09-30' "
+					+ "Group By Data Order by Data ");
 			
 			rs = st.executeQuery();
 			
 			while (rs.next()) {
-				System.out.println(rs.getDate("Data"));
+				System.out.println(sdf.format(rs.getDate("Data")));
 			}
 		}
 		catch (SQLException e) {
