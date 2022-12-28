@@ -61,14 +61,6 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 	}
 
 	@Override
-	public void atualizar(ItemPedido obj) {
-	}
-
-	@Override
-	public void deletarPeloId(Integer id) {
-	}
-
-	@Override
 	public ItemPedido acharPeloId(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;

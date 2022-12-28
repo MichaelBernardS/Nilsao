@@ -63,14 +63,6 @@ public class PedidoDaoImpl implements PedidoDao {
 	}
 
 	@Override
-	public void atualizar(Pedido obj) {
-	}
-
-	@Override
-	public void deletarPeloId(Integer id) {
-	}
-
-	@Override
 	public Pedido acharPeloId(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -173,21 +165,17 @@ public class PedidoDaoImpl implements PedidoDao {
 	}
 
 	@Override
-	public List<Pedido> acharTodos() {
-		return null;
-	}
-
-	@Override
-	public void countByDate() {
+	public void countByDate(Date dataInicio, Date dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement("SELECT count(Data) "
 					+ "From pedido "
 					+ "Where Data "
-					+ "Between '2022-09-01' AND '2022-09-30' "
+					+ "Between ? AND ? "
 					+ "Group By Data Order by Data ");
-			
+			st.setDate(1, new java.sql.Date(dataInicio.getTime()));
+			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			rs = st.executeQuery();
 			
 			while (rs.next()) {
@@ -204,16 +192,17 @@ public class PedidoDaoImpl implements PedidoDao {
 	}
 
 	@Override
-	public void groupByDate() {
+	public void groupByDate(Date dataInicio, Date dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement("SELECT Data "
 					+ "FROM pedido "
 					+ "WHERE Data "
-					+ "Between '2022-09-01' And '2022-09-30' "
+					+ "Between ? And ? "
 					+ "Group By Data Order by Data ");
-			
+			st.setDate(1, new java.sql.Date(dataInicio.getTime()));
+			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			rs = st.executeQuery();
 			
 			while (rs.next()) {

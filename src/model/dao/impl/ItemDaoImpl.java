@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 import db.DB;
 import db.DbException;
@@ -55,14 +54,6 @@ public class ItemDaoImpl implements ItemDao {
 	}
 
 	@Override
-	public void atualizar(Item obj) {
-	}
-
-	@Override
-	public void deletarPeloId(Integer id) {
-	}
-
-	@Override
 	public Item acharPeloId(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -92,10 +83,5 @@ public class ItemDaoImpl implements ItemDao {
 		it.setDescricao(rs.getString("Descricao"));
 		it.setPreco(rs.getDouble("Preco"));
 		return it;
-	}
-
-	@Override
-	public List<Item> acharTodos() {
-		return null;
 	}
 }

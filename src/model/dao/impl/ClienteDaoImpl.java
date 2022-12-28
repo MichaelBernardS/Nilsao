@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 import db.DB;
 import db.DbException;
@@ -55,14 +54,6 @@ public class ClienteDaoImpl implements ClienteDao {
 	}
 
 	@Override
-	public void atualizar(Cliente obj) {
-	}
-
-	@Override
-	public void deletarPeloId(Integer id) {
-	}
-
-	@Override
 	public Cliente acharPeloId(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
@@ -92,10 +83,5 @@ public class ClienteDaoImpl implements ClienteDao {
 		cl.setId(rs.getInt("Id"));
 		cl.setNome(rs.getString("Nome"));
 		return cl;
-	}
-
-	@Override
-	public List<Cliente> acharTodos() {
-		return null;
 	}
 }

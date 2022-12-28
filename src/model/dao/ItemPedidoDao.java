@@ -9,8 +9,6 @@ import model.entities.Pedido;
 public interface ItemPedidoDao {
 	
 	void adicionar(ItemPedido obj, Pedido pe);
-	void atualizar(ItemPedido obj);
-	void deletarPeloId(Integer id);
 	ItemPedido acharPeloId(Integer id);
 	List<ItemPedido> acharItemPedido(Pedido pedido);
 	void somaDoPedidoPeloId(Integer id);
