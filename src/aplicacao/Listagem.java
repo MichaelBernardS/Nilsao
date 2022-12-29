@@ -48,6 +48,6 @@ public class Listagem {
 		System.out.println();
 		System.out.println("Total geral");
 		System.out.println("-----------");
-		itemPedidoDao.somaTotal(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+		System.out.println(itemPedidoDao.somaTotal(sdf.parse("01/09/2022"), sdf.parse("30/09/2022")));
 	}
 }

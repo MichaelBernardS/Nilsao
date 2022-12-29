@@ -191,7 +191,7 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 	}
 
 	@Override
-	public void somaTotal(Date dataInicio, Date dataFinal) {
+	public Double somaTotal(Date dataInicio, Date dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -203,10 +203,13 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 			st.setDate(1, new java.sql.Date(dataInicio.getTime()));
 			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			rs = st.executeQuery();
+			
+			Double qt=0.0;
 
 			while (rs.next()) {
-				System.out.println(rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)"));
+				qt = rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)");
 			}
+			return qt;
 		}
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
