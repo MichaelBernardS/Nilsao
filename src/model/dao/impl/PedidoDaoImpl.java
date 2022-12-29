@@ -192,7 +192,7 @@ public class PedidoDaoImpl implements PedidoDao {
 	}
 
 	@Override
-	public void groupByDate(Date dataInicio, Date dataFinal) {
+	public List<String> groupByDate(Date dataInicio, Date dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -205,9 +205,12 @@ public class PedidoDaoImpl implements PedidoDao {
 			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			rs = st.executeQuery();
 			
+			List<String> list = new ArrayList<>();
+			
 			while (rs.next()) {
-				System.out.println(sdf.format(rs.getDate("Data")));
+				list.add(sdf.format(rs.getDate("Data")));
 			}
+			return list;
 		}
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());

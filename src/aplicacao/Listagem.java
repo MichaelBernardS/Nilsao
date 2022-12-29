@@ -19,13 +19,14 @@ public class Listagem {
 		PedidoDao pedidoDao = DaoFactory.createPedidoDao();
 
 		// Solicitações do Nilson:
-		// Utilizando o group by, mostrou as datas sem repetições;
+		// Utilizando o group by (agrupado por), impressão das datas dos pedidos dentro da data indicada abaixo, sem repetições;
 		System.out.println();
 		System.out.println("Data");
 		System.out.println("-----");
-		pedidoDao.groupByDate(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+		List<String> groupByDate = pedidoDao.groupByDate(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+		groupByDate.forEach(System.out::println);
 		
-		// Utilizando o count, mostrou quantos pedidos terão em uma determinada data:
+		// Utilizando o count (contagem), impressão da quantidade de pedidos dentro da data indicada abaixo:
 		System.out.println();
 		System.out.println("Pedidos");
 		System.out.println("-------");
