@@ -42,12 +42,15 @@ public class Listagem {
 		// Utilizando o sum e round, mostrou a soma do total dos pedidos agrupados por dia;
 		System.out.println();
 		System.out.println("Total");
-		System.out.println("-----");
-		itemPedidoDao.somaDosPedidosPorData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+		System.out.println("---------");
+		List<Double> listSomaDosPedidosPorData = itemPedidoDao.somaDosPedidosPorData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+		for (Double obj : listSomaDosPedidosPorData) {
+			System.out.printf(("R$: %.2f\n"), obj);
+		}
 		
 		System.out.println();
 		System.out.println("Total geral");
 		System.out.println("-----------");
-		System.out.println(itemPedidoDao.somaTotal(sdf.parse("01/09/2022"), sdf.parse("30/09/2022")));
+		System.out.printf(("R$: %.2f"),itemPedidoDao.somaTotal(sdf.parse("01/09/2022"), sdf.parse("30/09/2022")));
 	}
 }

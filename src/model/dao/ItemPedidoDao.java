@@ -12,6 +12,6 @@ public interface ItemPedidoDao {
 	ItemPedido acharPeloId(Integer id);
 	List<ItemPedido> acharItemPedido(Pedido pedido);
 	void somaDoPedidoPeloId(Integer id);
-	void somaDosPedidosPorData(Date dataInicio, Date dataFinal);
+	List<Double> somaDosPedidosPorData(Date dataInicio, Date dataFinal);
 	Double somaTotal(Date dataInicio, Date dataFinal);
 }

@@ -163,7 +163,7 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 	}
 
 	@Override
-	public void somaDosPedidosPorData(Date dataInicio, Date dataFinal) {
+	public List<Double> somaDosPedidosPorData(Date dataInicio, Date dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
@@ -176,10 +176,13 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 			st.setDate(1, new java.sql.Date(dataInicio.getTime()));
 			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			rs = st.executeQuery();
+			
+			List<Double> list = new ArrayList<>();
 
 			while (rs.next()) {
-				System.out.println(rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)"));
+				list.add(rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)"));
 			}
+			return list;
 		}
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
@@ -204,12 +207,12 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			rs = st.executeQuery();
 			
-			Double qt=0.0;
+			Double somaTotal = 0.0;
 
 			while (rs.next()) {
-				qt = rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)");
+				somaTotal = rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)");
 			}
-			return qt;
+			return somaTotal;
 		}
 		catch (SQLException e) {
 			throw new DbException(e.getMessage());
