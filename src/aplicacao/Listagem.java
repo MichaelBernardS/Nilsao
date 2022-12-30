@@ -30,7 +30,8 @@ public class Listagem {
 		System.out.println();
 		System.out.println("Pedidos");
 		System.out.println("-------");
-		pedidoDao.countByDate(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+		List<Integer> listCountByDate = pedidoDao.countByDate(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+		listCountByDate.forEach(System.out::println);
 		
 		// Localizar pedidos por data no BD;
 		System.out.println();

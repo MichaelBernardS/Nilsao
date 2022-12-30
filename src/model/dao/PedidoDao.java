@@ -10,6 +10,6 @@ public interface PedidoDao {
 	void adicionarPedido(Pedido obj);
 	Pedido acharPeloId(Integer id);
 	List<Pedido> acharPelaData(Date dataInicio, Date dataFinal);
-	void countByDate(Date dataInicio, Date dataFinal);
+	List<Integer> countByDate(Date dataInicio, Date dataFinal);
 	List<String> groupByDate(Date dataInicio, Date dataFinal);
 }
