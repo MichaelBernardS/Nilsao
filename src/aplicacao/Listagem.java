@@ -7,7 +7,6 @@ import java.util.List;
 import model.dao.DaoFactory;
 import model.dao.ItemPedidoDao;
 import model.dao.PedidoDao;
-import model.entities.Pedido;
 
 public class Listagem {
 
@@ -32,13 +31,6 @@ public class Listagem {
 		System.out.println("-------");
 		List<Integer> listCountByDate = pedidoDao.countByDate(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
 		listCountByDate.forEach(System.out::println);
-		
-		// Localizar pedidos por data no BD;
-		System.out.println();
-		System.out.println("Achar pedidos dentro da data de 01/09/2022 a 30/09/2022 no BD: ");
-		System.out.println("--------------------------------------------------------------");
-		List<Pedido> listAcharPelaData = pedidoDao.acharPelaData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
-		listAcharPelaData.forEach(System.out::println);
 		
 		// Utilizando o sum e round, mostrou a soma do total dos pedidos agrupados por dia;
 		System.out.println();

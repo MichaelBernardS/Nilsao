@@ -68,9 +68,11 @@ public class PedidoDaoImpl implements PedidoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"SELECT pedido.*,cliente.Nome as ClNome,item.Descricao as ItDescricao,item.Preco as ItPreco, itempedido.Qtde as ItPeQtde, itempedido.PrecoVenda as ItPePrecoVenda "
-					+ "FROM pedido INNER JOIN cliente INNER JOIN item INNER JOIN itempedido "
-					+ "ON pedido.IdCliente = cliente.Id "
+					"SELECT pedido.*, itempedido.Id as IdItemPedido, cliente.Id as IdCliente, pedido.Id as IdPedido, cliente.Nome as ClNome, item.Descricao as ItDescricao,item.Preco as ItPreco, itempedido.Qtde as ItPeQtde, itempedido.PrecoVenda as ItPePrecoVenda, Item.Id as IdItem "
+					+ "FROM itempedido "
+					+ "INNER JOIN pedido ON pedido.Id = itempedido.IdPedido "
+					+ "INNER JOIN item ON item.Id = itempedido.IdItem "
+					+ "INNER JOIN cliente ON cliente.Id = pedido.IdCliente "
 					+ "WHERE pedido.Id = ? ");
 			st.setInt(1, id);
 			rs = st.executeQuery();

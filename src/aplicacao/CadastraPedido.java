@@ -2,6 +2,7 @@ package aplicacao;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import model.dao.ClienteDao;
 import model.dao.DaoFactory;
@@ -98,13 +99,18 @@ public class CadastraPedido {
 		// Localizar pedidos pelo ID no BD;
 		System.out.println();
 		System.out.println("Achar pedido pelo id: ");
-		Pedido acharPedido = pedidoDao.acharPeloId(1);
-		System.out.println(acharPedido);
+		System.out.println(pedidoDao.acharPeloId(1));
 		
 		// Localizar itempedido pelo ID no BD;
 		System.out.println();
 		System.out.println("Achar ItemPedido pelo id: ");
-		ItemPedido acharItemPedido = itemPedidoDao.acharPeloId(2);
-		System.out.println(acharItemPedido);
+		System.out.println(itemPedidoDao.acharPeloId(1));
+		
+		// Localizar pedidos por data no BD;
+		System.out.println();
+		System.out.println("Achar pedidos dentro da data de 01/09/2022 a 30/09/2022 no BD: ");
+		System.out.println("--------------------------------------------------------------");
+		List<Pedido> listAcharPelaData = pedidoDao.acharPelaData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+		listAcharPelaData.forEach(System.out::println);
 	}
 }
