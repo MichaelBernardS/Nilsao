@@ -36,14 +36,14 @@ public class Listagem {
 		System.out.println();
 		System.out.println("Total");
 		System.out.println("---------");
+		Double soma = 0.0;
 		List<Double> listSomaDosPedidosPorData = itemPedidoDao.somaDosPedidosPorData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
 		for (Double obj : listSomaDosPedidosPorData) {
 			System.out.printf(("R$: %.2f\n"), obj);
+			soma += obj;
 		}
 		
 		System.out.println();
-		System.out.println("Total geral");
-		System.out.println("-----------");
-		System.out.printf(("R$: %.2f"),itemPedidoDao.somaTotal(sdf.parse("01/09/2022"), sdf.parse("30/09/2022")));
+		System.out.println("Total geral: R$ " + String.format("%.2f", soma));
 	}
 }
