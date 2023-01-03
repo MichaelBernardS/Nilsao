@@ -9,41 +9,31 @@ import model.dao.ItemPedidoDao;
 import model.dao.PedidoDao;
 
 public class Listagem {
+	
+    public static void main(String[] args) throws ParseException {
 
-	public static void main(String[] args) throws ParseException {
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		
-		ItemPedidoDao itemPedidoDao = DaoFactory.createItemPedidoDao();
-		PedidoDao pedidoDao = DaoFactory.createPedidoDao();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-		// Solicitações do Nilson:
-		// Utilizando o group by (agrupado por), impressão das datas dos pedidos dentro da data indicada abaixo, sem repetições;
-		System.out.println();
-		System.out.println("Data");
-		System.out.println("-----");
-		List<String> groupByDate = pedidoDao.groupByDate(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
-		groupByDate.forEach(System.out::println);
-		
-		// Utilizando o count (contagem), impressão da quantidade de pedidos dentro da data indicada abaixo:
-		System.out.println();
-		System.out.println("Pedidos");
-		System.out.println("-------");
-		List<Integer> listCountByDate = pedidoDao.countByDate(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
-		listCountByDate.forEach(System.out::println);
-		
-		// Utilizando o sum e round, mostrou a soma do total dos pedidos agrupados por dia;
-		System.out.println();
-		System.out.println("Total");
-		System.out.println("---------");
-		Double soma = 0.0;
-		List<Double> listSomaDosPedidosPorData = itemPedidoDao.somaDosPedidosPorData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
-		for (Double obj : listSomaDosPedidosPorData) {
-			System.out.printf(("R$: %.2f\n"), obj);
-			soma += obj;
-		}
-		
-		System.out.println();
-		System.out.println("Total geral: R$ " + String.format("%.2f", soma));
-	}
+        ItemPedidoDao itemPedidoDao = DaoFactory.createItemPedidoDao();
+        PedidoDao pedidoDao = DaoFactory.createPedidoDao();
+
+        // Solicitações do Nilson:
+        System.out.println();
+        System.out.println("   Data    Pedidos Total");
+        System.out.println("---------- ------- -----");
+        Double soma = 0.0;
+        List<String> groupByDate = pedidoDao.groupByDate(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+        List<Integer> countByDate = pedidoDao.countByDate(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+        List<Double> somaDosPedidosPorData = itemPedidoDao.somaDosPedidosPorData(sdf.parse("01/09/2022"), sdf.parse("30/09/2022"));
+        for (int i=0;i<groupByDate.size() && i<countByDate.size() && i<somaDosPedidosPorData.size();i++) {
+            System.out.print(groupByDate.get(i) + "    ");
+            System.out.print(countByDate.get(i) + "    ");
+            System.out.println(somaDosPedidosPorData.get(i));
+        }
+        for (Double obj : somaDosPedidosPorData) {
+            soma += obj;
+        }
+        System.out.println();
+        System.out.println("Total geral:       " + String.format("%.2f", soma));
+    }
 }
