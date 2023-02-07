@@ -1,6 +1,5 @@
 package model.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import model.entities.ItemPedido;
@@ -11,5 +10,4 @@ public interface ItemPedidoDao {
 	void adicionar(ItemPedido obj, Pedido pe);
 	ItemPedido acharPeloId(Integer id);
 	List<ItemPedido> acharItemPedido(Pedido pedido);
-	List<Double> somaDosPedidosPorData(Date dataInicio, Date dataFinal);
 }
