@@ -107,7 +107,7 @@ public class PedidoDaoImpl implements PedidoDao {
 							+ "INNER JOIN item ON item.Id = itempedido.IdItem "
 							+ "INNER JOIN cliente ON cliente.Id = pedido.IdCliente "
 							+ "WHERE pedido.Data between ? and ? "
-							+ "ORDER BY itempedido.Id, cliente.Id, pedido.Id ");
+							+ "ORDER BY Data ");
 			st.setDate(1, new java.sql.Date(dataInicio.getTime()));
 			st.setDate(2, new java.sql.Date(dataFinal.getTime()));
 			

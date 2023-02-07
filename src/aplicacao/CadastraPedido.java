@@ -23,8 +23,8 @@ public class CadastraPedido {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		// Adição de 6 pedidos no BD;
-		System.out.println("Inserção de pedidos:");
+		// AdiÃ§Ã£o de 6 pedidos no BD;
+		System.out.println("Inserï¿½ï¿½o de pedidos:");
 		
 		Pedido pedido1 = new Pedido(null, sdf.parse("10/08/2022"), clienteDao.acharPeloId(1));
 		pedidoDao.adicionarPedido(pedido1);
@@ -50,9 +50,9 @@ public class CadastraPedido {
 		pedidoDao.adicionarPedido(pedido6);
 		System.out.println("Adicionado! Novo id: " + pedido6.getId());
 		
-		// Adição de itens de pedidos
+		// AdiÃ§Ã£o de itens de pedidos
 		System.out.println();
-		System.out.println("Inserção de itens de pedidos:");
+		System.out.println("Inserï¿½ï¿½o de itens de pedidos:");
 		
 		ItemPedido itemPedido1 = new ItemPedido(null, 4, itemDao.acharPeloId(1).getPreco(), itemDao.acharPeloId(1));
 		itemPedidoDao.adicionar(itemPedido1, pedido1);

@@ -12,13 +12,13 @@ public class CadastraCliente {
 		
 		ClienteDao clienteDao = DaoFactory.createClienteDao();
 		
-		// AdiÁ„o de 3 clientes no BD: Nilson, JosÈ e Marcelo;
+		// Adi√ß√£o de 3 clientes no BD: Nilson, Jos√© e Marcelo;
 		System.out.println();
-		System.out.println("InserÁ„o dos clientes:");
+		System.out.println("Inser√ß√£o dos clientes:");
 		Cliente cliente1 = new Cliente(null, "Nilson");
 		clienteDao.adicionarCliente(cliente1);
 		System.out.println("Adicionado! Novo id: " + cliente1.getId());
-		Cliente cliente2 = new Cliente(null, "Jose");
+		Cliente cliente2 = new Cliente(null, "Jos√©");
 		clienteDao.adicionarCliente(cliente2);
 		System.out.println("Adicionado! Novo id: " + cliente2.getId());
 		Cliente cliente3 = new Cliente(null, "Marcelo");

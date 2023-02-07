@@ -138,31 +138,6 @@ public class ItemPedidoDaoImpl implements ItemPedidoDao {
 	}
 
 	@Override
-	public void somaDoPedidoPeloId(Integer id) {
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		try {
-			st = conn.prepareStatement(
-					"SELECT round(SUM(Qtde * PrecoVenda), 2) "
-					+ "FROM itempedido "
-					+ "WHERE idPedido = ? ");
-			st.setInt(1, id);
-			rs = st.executeQuery();
-			
-			while (rs.next()) {
-				System.out.println(rs.getDouble("round(SUM(Qtde * PrecoVenda), 2)"));
-			}
-		}
-		catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		} 
-		finally {
-			DB.closeStatement(st);
-			DB.closeResultSet(rs);
-		}
-	}
-
-	@Override
 	public List<Double> somaDosPedidosPorData(Date dataInicio, Date dataFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
